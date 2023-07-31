@@ -72,7 +72,7 @@ public class MuseumService implements MuseumServiceInterface {
   }
 
   /**
-   * Valida as coordenadas do museu e lança uma exceção InvalidCoordinateException se forem inválidas.
+   * Valida coordenadas do museu e lança uma exceção InvalidCoordinateException se forem inválidas.
    *
    * @param coordinate As coordenadas do museu a serem validadas.
    * @throws InvalidCoordinateException Se as coordenadas do museu forem inválidas.
