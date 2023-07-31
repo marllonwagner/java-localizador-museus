@@ -1,5 +1,7 @@
 package com.betrybe.museumfinder.exception;
 
+import org.springframework.http.HttpStatus;
+
 /**
  * Exceção personalizada para indicar coordenadas inválidas.
  * Esta é uma exceção não verificada, o que significa que não é obrigatória
@@ -11,8 +13,10 @@ public class InvalidCoordinateException extends RuntimeException {
   /**
    * Cria uma instância de InvalidCoordinateException sem uma mensagem específica.
    */
+
   public InvalidCoordinateException() {
     super();
+
   }
 
   /**

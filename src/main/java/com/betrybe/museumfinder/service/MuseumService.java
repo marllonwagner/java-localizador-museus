@@ -42,7 +42,7 @@ public class MuseumService implements MuseumServiceInterface {
     if (isMuseumFound.isPresent()) {
       return isMuseumFound.get();
     } else {
-      throw new MuseumNotFoundException("Nenhum museu próximo encontrado");
+      throw new MuseumNotFoundException();
     }
   }
 
@@ -79,7 +79,7 @@ public class MuseumService implements MuseumServiceInterface {
    */
   private void validateCoordinates(Coordinate coordinate) throws InvalidCoordinateException {
     if (!CoordinateUtil.isCoordinateValid(coordinate)) {
-      throw new InvalidCoordinateException("As coordenadas do museu não são válidas.");
+      throw new InvalidCoordinateException();
     }
   }
 }
