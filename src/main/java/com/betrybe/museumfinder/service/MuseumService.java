@@ -2,9 +2,11 @@ package com.betrybe.museumfinder.service;
 
 import com.betrybe.museumfinder.database.MuseumFakeDatabase;
 import com.betrybe.museumfinder.exception.InvalidCoordinateException;
+import com.betrybe.museumfinder.exception.MuseumNotFoundException;
 import com.betrybe.museumfinder.model.Coordinate;
 import com.betrybe.museumfinder.model.Museum;
 import com.betrybe.museumfinder.util.CoordinateUtil;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +37,13 @@ public class MuseumService implements MuseumServiceInterface {
    */
   @Override
   public Museum getClosestMuseum(Coordinate coordinate, Double maxDistance) {
-    // Implementação do método getClosestMuseum (não incluído no exemplo)
-    return null;
+    validateCoordinates(coordinate);
+    Optional<Museum> isMuseumFound = museumFakeDatabase.getClosestMuseum(coordinate, maxDistance);
+    if (isMuseumFound.isPresent()) {
+      return isMuseumFound.get();
+    } else {
+      throw new MuseumNotFoundException("Nenhum museu próximo encontrado");
+    }
   }
 
   /**
@@ -48,12 +55,7 @@ public class MuseumService implements MuseumServiceInterface {
    */
   @Override
   public Museum createMuseum(Museum museum) throws InvalidCoordinateException {
-    Coordinate coordinate = museum.getCoordinate();
-    boolean isValidCoordinate = CoordinateUtil.isCoordinateValid(coordinate);
-    if (!isValidCoordinate) {
-      throw new InvalidCoordinateException("As coordenadas do museu não são válidas.");
-    }
-
+    validateCoordinates(museum.getCoordinate());
     return museumFakeDatabase.saveMuseum(museum);
   }
 
@@ -67,5 +69,17 @@ public class MuseumService implements MuseumServiceInterface {
   public Museum getMuseum(Long id) {
     // Implementação do método getMuseum (não incluído no exemplo)
     return null;
+  }
+
+  /**
+   * Valida as coordenadas do museu e lança uma exceção InvalidCoordinateException se forem inválidas.
+   *
+   * @param coordinate As coordenadas do museu a serem validadas.
+   * @throws InvalidCoordinateException Se as coordenadas do museu forem inválidas.
+   */
+  private void validateCoordinates(Coordinate coordinate) throws InvalidCoordinateException {
+    if (!CoordinateUtil.isCoordinateValid(coordinate)) {
+      throw new InvalidCoordinateException("As coordenadas do museu não são válidas.");
+    }
   }
 }
